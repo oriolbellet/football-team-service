@@ -1,4 +1,4 @@
-package org.oriolbellet.football.team.application.command;
+package org.oriolbellet.football.team.application.command.lineup;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,9 +10,8 @@ import java.util.UUID;
 @Getter
 @ToString
 @AllArgsConstructor
-public class CreateTeamCommand {
-
+public class PlayerAddedToLineUpEvent {
     @TargetAggregateIdentifier
-    private final UUID teamId;
-
+    private final UUID lineUpId;
+    private final UUID playerId;
 }

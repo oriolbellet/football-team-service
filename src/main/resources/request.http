@@ -1,0 +1,13 @@
+### Create FCBarcelona team
+PUT localhost:8080/teams/api/v1/3568a2f2-5c83-41f5-92d9-8b9f10108426
+Content-Type: application/json
+
+{
+  "sourceTeamId":"01fdbce4-7d10-4916-b71f-13cf61bbffe8"
+}
+
+### Get teams
+GET localhost:8080/teams/api/v1/3568a2f2-5c83-41f5-92d9-8b9f10108426
+
+### Get default teams
+GET localhost:8080/teams/api/v1
