@@ -5,6 +5,8 @@ import org.axonframework.queryhandling.QueryHandler;
 import javax.inject.Named;
 import java.util.List;
 
+import static org.oriolbellet.football.team.application.query.shared.QueryConstants.QUERY_GET_DEFAULT_TEAMS;
+
 @Named
 public class GetDefaultTeamsQueryHandler {
 
@@ -15,7 +17,7 @@ public class GetDefaultTeamsQueryHandler {
     }
 
     @SuppressWarnings("unused") // Used by Axon
-    @QueryHandler(queryName = "getDefaultTeams")
+    @QueryHandler(queryName = QUERY_GET_DEFAULT_TEAMS)
     public List<TeamProjection> getDefaultTeams() {
         return teamProjectionRepository.findByDefTrue();
     }

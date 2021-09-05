@@ -19,8 +19,6 @@ public class LineUp {
 
     @AggregateIdentifier
     private UUID lineUpId;
-    //private List<Player> players;
-    //private Tactic tactic;
 
     public LineUp(UUID lineUpId, String tactic) {
         apply(new LineUpCreatedEvent(lineUpId, tactic));
@@ -34,7 +32,5 @@ public class LineUp {
     @EventSourcingHandler
     public void on(LineUpCreatedEvent event) {
         lineUpId = event.getLineUpId();
-        //players = Collections.emptyList();
-        //tactic = Tactic.valueOf(event.getTactic());
     }
 }

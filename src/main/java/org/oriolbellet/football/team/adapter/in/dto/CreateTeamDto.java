@@ -1,4 +1,4 @@
-package org.oriolbellet.football.team.adapter.in;
+package org.oriolbellet.football.team.adapter.in.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

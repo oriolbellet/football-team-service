@@ -6,6 +6,8 @@ import javax.inject.Named;
 import java.util.List;
 import java.util.UUID;
 
+import static org.oriolbellet.football.team.application.query.shared.QueryConstants.QUERY_GET_PAYERS_BY_TEAM_ID;
+
 @Named
 public class GetPlayersByTeamQueryHandler {
 
@@ -16,8 +18,8 @@ public class GetPlayersByTeamQueryHandler {
     }
 
     @SuppressWarnings("unused") // Axon
-    @QueryHandler(queryName = "getPlayersByTeam")
-    public List<PlayerProjection> getPlayersByTeam(UUID teamId) {
+    @QueryHandler(queryName = QUERY_GET_PAYERS_BY_TEAM_ID)
+    public List<PlayerProjection> getPlayersByTeamId(UUID teamId) {
         //TODO: Use custom exceptions
         return repository.findAllPlayersByTeamId(teamId);
     }
