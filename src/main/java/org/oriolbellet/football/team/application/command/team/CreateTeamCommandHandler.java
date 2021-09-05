@@ -3,6 +3,7 @@ package org.oriolbellet.football.team.application.command.team;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.modelling.command.Aggregate;
 import org.axonframework.modelling.command.Repository;
+import org.oriolbellet.football.team.application.command.shared.UUIDGenerator;
 import org.oriolbellet.football.team.application.command.lineup.AddPlayerToLineUpCommand;
 import org.oriolbellet.football.team.application.command.lineup.LineUp;
 import org.oriolbellet.football.team.application.command.player.Player;
@@ -26,15 +27,17 @@ public class CreateTeamCommandHandler {
     private final GetTeamQueryHandler getTeamQueryHandler;
     private final GetLineUpQueryHandler getLineUpQueryHandler;
     private final GetPlayersByTeamQueryHandler getPlayersByTeamQueryHandler;
+    private final UUIDGenerator uuidGenerator;
 
     @SuppressWarnings("all") // Axon bean
-    public CreateTeamCommandHandler(Repository<Team> teamRepository, Repository<LineUp> lineUpRepository, Repository<Player> playerRepository, GetTeamQueryHandler getTeamQueryHandler, GetLineUpQueryHandler getLineUpQueryHandler, GetPlayersByTeamQueryHandler getPlayersByTeamQueryHandler) {
+    public CreateTeamCommandHandler(Repository<Team> teamRepository, Repository<LineUp> lineUpRepository, Repository<Player> playerRepository, GetTeamQueryHandler getTeamQueryHandler, GetLineUpQueryHandler getLineUpQueryHandler, GetPlayersByTeamQueryHandler getPlayersByTeamQueryHandler, UUIDGenerator uuidGenerator) {
         this.teamRepository = teamRepository;
         this.lineUpRepository = lineUpRepository;
         this.playerRepository = playerRepository;
         this.getTeamQueryHandler = getTeamQueryHandler;
         this.getLineUpQueryHandler = getLineUpQueryHandler;
         this.getPlayersByTeamQueryHandler = getPlayersByTeamQueryHandler;
+        this.uuidGenerator = uuidGenerator;
     }
 
     @CommandHandler
@@ -42,16 +45,16 @@ public class CreateTeamCommandHandler {
     public void createTeam(CreateTeamCommand cmd) {
 
         TeamProjection teamProjection = getTeamQueryHandler.getTeam(cmd.getSourceTeamId());
-        LineUpProjection lineUpProjection = getLineUpQueryHandler.getLineUp(teamProjection.getLineUpId());
-        List<PlayerProjection> playerProjections = getPlayersByTeamQueryHandler.getPlayersByTeam(teamProjection.getTeamId());
+        LineUpProjection lineUpProjection = getLineUpQueryHandler.getLineUpById(teamProjection.getLineUpId());
+        List<PlayerProjection> playerProjections = getPlayersByTeamQueryHandler.getPlayersByTeamId(teamProjection.getTeamId());
 
-        UUID lineUpId = UUID.randomUUID();
+        UUID lineUpId = uuidGenerator.generateUUID();
 
         Aggregate<LineUp> lineUpAggregate = createLineUp(lineUpId, lineUpProjection);
         Aggregate<Team> teamAggregate = createTeam(cmd.getTeamId(), teamProjection, lineUpId);
 
         playerProjections.forEach(playerProjection -> {
-            UUID playerId = UUID.randomUUID();
+            UUID playerId = uuidGenerator.generateUUID();
             createPlayer(playerId, playerProjection);
             addPlayerToTeam(teamAggregate, playerId);
             addPlayerToLineUp(lineUpAggregate, playerId);

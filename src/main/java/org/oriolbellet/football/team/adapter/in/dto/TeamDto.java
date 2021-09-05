@@ -1,4 +1,4 @@
-package org.oriolbellet.football.team.adapter.in;
+package org.oriolbellet.football.team.adapter.in.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import java.util.UUID;
 @Getter
 @ToString
 @AllArgsConstructor
-public class FullTeamDto {
+public class TeamDto {
     private final UUID teamId;
     private final String name;
     private final List<PlayerDto> squad;
